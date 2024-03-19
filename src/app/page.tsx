@@ -19,7 +19,7 @@ export default function Page() {
     <div className="p-5 max-w-md mx-auto homepage-account">
       <main className="flex-col">
         <header className="flex justify-between">
-          <h1 className="font-medium text-xl">Splitrck</h1>
+          <h1 className="font-semibold text-xl">Splitrck</h1>
         </header>
         <section className="mt-32 mb-10">
           <p className="text-3xl font-medium text-[#5CC5A7] ">

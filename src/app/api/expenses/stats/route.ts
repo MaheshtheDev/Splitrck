@@ -77,9 +77,11 @@ export async function GET(request: Request) {
   let currentDate = new Date();
   let fourMonthsAgo = new Date();
   fourMonthsAgo.setMonth(currentDate.getMonth() - 3);
+  fourMonthsAgo.setDate(1);
   let API_URL = `https://secure.splitwise.com/api/v3.0/get_expenses?dated_after=${fourMonthsAgo
     .toISOString()
-    .slice(0, 10)}&limit=10000`;
+    .slice(0, 10)}&limit=50000`;
+
   const expensesData = await fetch(API_URL, {
     method: "GET",
     headers: {
@@ -89,24 +91,46 @@ export async function GET(request: Request) {
   }).then((res) => res.json());
 
   function calculateMonthWiseSplits(expensesData: any, userId: any) {
-    const monthWiseSplits: any = {};
+    const monthWiseSplits: {
+      [month: string]: { owed: number; received: number; expenses: any[] };
+    } = {};
 
-    expensesData.expenses.forEach((expense: any) => {
-      const month = expense.date.slice(0, 7); // Extract YYYY-MM from the date string
-      const userExpenseInfo = expense.users.find(
-        (user: any) => user.user_id === Number(userId)
-      );
+    expensesData.expenses
+      .filter(
+        (expse: any) =>
+          expse.creation_method === null &&
+          expse.currency_code === "USD" &&
+          expse.deleted_at === null
+      )
+      .forEach((expense: any) => {
+        const date = new Date(expense.date);
+        const date_month = date.toLocaleString("en-US", { month: "short" });
+        const date_year = date.toLocaleString("en-US", { year: "2-digit" });
+        const month = `${date_month}'${date_year}`;
 
-      if (userExpenseInfo) {
-        if (!monthWiseSplits[month]) {
-          monthWiseSplits[month] = { owed: 0, received: 0 };
+        const userExpenseInfo = expense.users.find(
+          (user: any) => user.user_id === Number(userId)
+        );
+
+        if (userExpenseInfo) {
+          if (!monthWiseSplits[month]) {
+            monthWiseSplits[month] = { owed: 0, received: 0, expenses: [] };
+          }
+
+          //handle the currency convertor
+          const amount = parseFloat(userExpenseInfo.owed_share || "0");
+
+          if (amount > 0) {
+            monthWiseSplits[month].owed += amount;
+            // add expenses to the month
+            monthWiseSplits[month].expenses.push({
+              description: expense.description,
+              amount: amount,
+              date: expense.date,
+            });
+          }
         }
-
-        const amount = parseFloat(userExpenseInfo.owed_share || "0");
-
-        monthWiseSplits[month].owed += amount;
-      }
-    });
+      });
 
     return monthWiseSplits;
   }
@@ -117,6 +141,7 @@ export async function GET(request: Request) {
     return {
       month,
       owed: mSplits[month].owed,
+      expenses: mSplits[month].expenses,
     };
   });
 
