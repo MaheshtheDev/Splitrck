@@ -1,9 +1,19 @@
 import { withAuth } from "next-auth/middleware";
 
-export default withAuth({
-  pages: {
-    signIn: "/",
+// middleware is applied to all routes, use conditionals to select
+
+export default withAuth(function middleware(req) {}, {
+  callbacks: {
+    authorized: ({ req, token }) => {
+      if (token === null) {
+        return false;
+      }
+      return true;
+    },
   },
+  pages: {
+    signIn: "/", 
+  }
 });
 
 export const config = {
