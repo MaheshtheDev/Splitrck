@@ -17,7 +17,6 @@ type StatsProps = {
     owedToMe: { friend: any; amount: number };
     monthWiseSplits: any;
   } | null;
-  recentExpenses: any;
 };
 
 const renderCustomizedLabel = (props: any) => {
@@ -50,7 +49,7 @@ const renderCustomizedLabel = (props: any) => {
   );
 };
 
-export function Stats({ user, stats, recentExpenses }: StatsProps) {
+export function Stats({ user, stats }: StatsProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   return (

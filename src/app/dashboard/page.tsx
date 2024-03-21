@@ -2,14 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { STUser } from "@/components/STUser";
-import { CONSTANTS } from "@/lib/constants";
 import { useUserStore } from "@/lib/store";
 import { Stats } from "@/components/Stats";
-
-type Tabs = "stats" | "spendings";
+import API from "@/lib/api";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<Tabs>("stats");
   const [user, setUser] = useState<any>(null);
   const [stats, setStats] = useState<{
     owedByMe: { friend: any; amount: number };
@@ -20,14 +17,10 @@ export default function Home() {
   const userStore = useUserStore();
 
   const fetchData = async () => {
-    const response = await fetch(CONSTANTS.BASE_URL + "/api/user", {
-      method: "GET",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setUser(data.user);
-      userStore.setUser(data.user);
+    const [userData, error] = await API.getUser();
+    if (userData) {
+      setUser(userData);
+      userStore.setUser(userData);
     }
   };
 
@@ -36,31 +29,15 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const fetchRecentExpenses = async () => {
-      const response = await fetch("/api/expenses/recent?userId=" + user.id, {
-        method: "GET",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-      }
-    };
-
     const fetchStats = async () => {
-      const response = await fetch("/api/expenses/stats?userId=" + user.id, {
-        method: "GET",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
+      const [data, error] = await API.getStats(user.id);
+      if (data) {
         setStats(data);
       }
     };
 
     if (user) {
       fetchStats();
-      fetchRecentExpenses();
     }
   }, [user]);
 
@@ -70,7 +47,7 @@ export default function Home() {
         <h1 className={"text-xl font-semibold text-[#16803C]"}>Splitrck</h1>
         <STUser />
       </header>
-      <Stats user={user} stats={stats} recentExpenses={recentExpenses} />
+      <Stats user={user} stats={stats} />
     </main>
   );
 }
