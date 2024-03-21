@@ -91,7 +91,7 @@ export function Stats({ user, stats }: StatsProps) {
                 {stats.monthWiseSplits.map((entry: any, index: any) => (
                   <Cell
                     cursor="pointer"
-                    fill={index === activeIndex ? "#8884d8" : "#82ca9d"}
+                    fill={index === activeIndex ? "#35335b" : "#82ca9d"}
                     key={`cell-${index}`}
                   />
                 ))}
@@ -115,21 +115,23 @@ export function Stats({ user, stats }: StatsProps) {
                     key={index}
                     className="flex justify-between bg-white px-2 py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out"
                   >
-                    <div className="flex justify-center items-center">
-                      <div className="items-center bg-slate-500 rounded-sm mr-2 px-2 py-1 text-white">
-                        <div className="text-xs">
+                    <div className="flex justify-start items-center">
+                      <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
+                        <div className="text-xs text-center">
                           {new Date(expense.date).toLocaleDateString("en-US", {
                             month: "short",
                           })}
                         </div>
-                        <div className="text-md">
+                        <div className="text-md text-center">
                           {new Date(expense.date).toLocaleDateString("en-US", {
                             day: "numeric",
                           })}
                         </div>
                       </div>
                       <div className="flex-col">
-                        <p>{expense.description}</p>
+                        <p className="font-bold tracking-wide">
+                          {expense.description}
+                        </p>
                         <p className="text-xs text-gray-500">Paid by Mahesh</p>
                       </div>
                     </div>
