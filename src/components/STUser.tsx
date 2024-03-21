@@ -17,6 +17,7 @@ import {
 import { useUserStore } from "@/lib/store";
 import { CONSTANTS } from "@/lib/constants";
 import { useRouter } from "next/navigation";
+import API from "@/lib/api";
 
 export function STUser() {
   const router = useRouter();
@@ -24,22 +25,16 @@ export function STUser() {
   const userStore = useUserStore();
 
   const fetchData = async () => {
-    const response = await fetch(CONSTANTS.BASE_URL + "/api/user", {
-      method: "GET",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setUser(data.user);
-      userStore.setUser(data.user);
+    const [data, error] = await API.getUser();
+    if (data) {
+      userStore.setUser(data);
+      setUser(data);
     }
   };
 
   if (!userStore.user) {
     fetchData();
   }
-  
 
   return (
     <>
