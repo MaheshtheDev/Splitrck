@@ -18,8 +18,26 @@ export default function Page() {
   return (
     <div className="p-5 max-w-md mx-auto homepage-account">
       <main className="flex-col">
-        <header className="flex justify-between">
+        <header className="flex justify-between items-center">
           <h1 className="font-semibold text-xl">Splitrck</h1>
+          <button
+            className="flex bg-black rounded-md text-white py-1 px-2 items-center"
+            onClick={() =>
+              window.open("https://github.com/MaheshtheDev/Splitrck", "_blank")
+            }
+          >
+            <Image
+              src="/github-mark-white.svg"
+              width={20}
+              height={20}
+              alt="Github"
+              className="text-white mr-1"
+            />
+            <div className="flex flex-col items-start tracking-wide">
+              <p className="text-[6px] text-gray-400">Made by</p>
+              <p className="text-[8px]">MaheshtheDev</p>
+            </div>
+          </button>
         </header>
         <section className="mt-32 mb-10">
           <p className="text-3xl font-medium text-[#5CC5A7] ">
