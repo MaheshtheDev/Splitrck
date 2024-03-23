@@ -50,6 +50,10 @@ export async function GET(request: Request) {
         (user: any) => user.user_id === Number(userId)
       );
 
+      const paidBy = expense.users.find(
+        (user: any) => user.paid_share !== 0
+      );
+
       if (userExpenseInfo) {
         if (userExpenseInfo.paid_share != 0) {
           lentByMe += userExpenseInfo.paid_share - userExpenseInfo.owed_share;
@@ -80,6 +84,7 @@ export async function GET(request: Request) {
             amount: parseFloat(userExpenseInfo.owed_share || 0),
             date: expense.date,
             category: expense.category.name,
+            paidBy: paidBy
           } as any);
         }
       }

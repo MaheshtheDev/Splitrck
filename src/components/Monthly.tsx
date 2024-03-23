@@ -8,6 +8,7 @@ import {
   Cell,
 } from "recharts";
 import dynamic from "next/dynamic";
+import { HandCoins } from "lucide-react";
 
 const BarChartWithoutSSR = dynamic(
   () => import("recharts").then((mod) => mod.BarChart),
@@ -73,7 +74,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
               margin={{
                 top: 5,
                 right: 30,
-                left: 15,
+                left: 20,
                 bottom: 5,
               }}
               className="mt-2"
@@ -98,10 +99,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
         <section className="my-2 flex justify-between">
           <div className="w-[47%] bg-[#f3f3f3] rounded-md py-1 px-2">
             <p className="text-green-900 text-center">Top Categories</p>
-            <ResponsiveContainer
-              width="100%"
-              height={40 * stats.topCategories.length}
-            >
+            <ResponsiveContainer width="100%" height={40 * 3}>
               <PieChartWithoutSSR
                 margin={{
                   top: 5,
@@ -142,7 +140,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
                       className="w-2 h-2"
                       style={{ backgroundColor: COLORS[i % COLORS.length] }}
                     ></div>
-                    <p className="ml-1">{d.name}</p>
+                    <p className="ml-1 truncate">{d.name}</p>
                   </div>
                   <p className="font-semibold">{d.value} USD</p>
                 </div>
@@ -163,19 +161,36 @@ export function MonthlyStats({ stats }: { stats: any }) {
               return (
                 <div
                   key={index}
-                  className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out"
+                  className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out pr-2 rounded-sm first:mt-2"
                 >
                   <div className="flex justify-start items-center">
                     <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
                       <div className="text-xs text-center">
-                        {expense.category}
+                        {new Date(expense.date).toLocaleDateString("en-US", {
+                          month: "short",
+                        })}
+                      </div>
+                      <div className="text-md text-center">
+                        {new Date(expense.date).toLocaleDateString("en-US", {
+                          day: "numeric",
+                        })}
                       </div>
                     </div>
                     <div>
                       <p className="text-sm">{expense.description}</p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(expense.date).toLocaleDateString()}
-                      </p>
+                      <div className="flex items-center mt-1">
+                        <div className="rounded-full bg-[#f3f3f3] px-2 flex items-center mr-1">
+                          <HandCoins size={10} />
+                          <p className="text-[10px] ml-1">
+                            {expense.paidBy.user.first_name}
+                          </p>
+                        </div>
+                        <div className="rounded-full bg-[#f3f3f3] px-2">
+                          <div className="text-[10px] text-center">
+                            {expense.category}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <p className="font-semibold">
