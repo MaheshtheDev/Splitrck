@@ -113,7 +113,7 @@ export function Stats({ user, stats }: StatsProps) {
                 .map((expense: any, index: number) => (
                   <li
                     key={index}
-                    className="flex justify-between bg-white px-2 py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out"
+                    className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out"
                   >
                     <div className="flex justify-start items-center">
                       <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
@@ -129,9 +129,7 @@ export function Stats({ user, stats }: StatsProps) {
                         </div>
                       </div>
                       <div className="flex-col">
-                        <p className="font-bold tracking-wide">
-                          {expense.description}
-                        </p>
+                        <p className="tracking-wide">{expense.description}</p>
                         <p className="text-xs text-gray-500">Paid by Mahesh</p>
                       </div>
                     </div>

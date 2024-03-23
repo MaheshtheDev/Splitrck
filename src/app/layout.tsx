@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Dongle } from "next/font/google";
+import { Montserrat } from "next/font/google";
 
 import { NextAuthProvider } from "./providers";
 import "./globals.css";
 
-const dongle = Dongle({
-  weight: ["300", "400", "700"],
-  subsets: ["vietnamese"],
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export default function RootLayout({
         <title>Splitrck</title>
       </head>
       <NextAuthProvider>
-        <body className={dongle.className + " bg-white"}>{children}</body>
+        <body className={montserrat.className + " bg-white"}>{children}</body>
       </NextAuthProvider>
     </html>
   );

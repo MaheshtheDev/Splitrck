@@ -1,6 +1,7 @@
 const API = {
   getUser,
   getStats,
+  getMonthlyExpenses
 };
 
 export default API;
@@ -29,4 +30,20 @@ async function getUser() {
   }
 
   return [null, "Error fetching user"];
+}
+
+async function getMonthlyExpenses(userId: string, date: Date) {
+  const response = await fetch(
+    `/api/expenses/monthly?userId=${userId}&date=${date.toISOString()}`,
+    {
+      method: "GET",
+    }
+  );
+
+  if (response.ok) {
+    const data = await response.json();
+    return [data, null];
+  }
+
+  return [null, "Error fetching expenses"];
 }
