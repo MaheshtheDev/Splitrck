@@ -29,7 +29,7 @@ export function STUser({ user }: { user: any }) {
           <DropdownMenuTrigger asChild>
             <div className="flex text-center items-center">
               <p>{user.first_name}</p>
-              <User />
+              <User className="w-5 h-5 ml-2" />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">

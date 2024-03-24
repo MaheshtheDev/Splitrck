@@ -10,7 +10,7 @@ import { STUser } from "@/components/STUser";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
-  
+
   const [monthlyStats, setMonthlyStats] = useState<any>();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const userStore = useUserStore();
@@ -37,12 +37,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-
     const fetchMonthlyStats = async (date: any) => {
-      const [data, error] = await API.getMonthlyExpenses(
-        user.id,
-        date
-      );
+      const [data, error] = await API.getMonthlyExpenses(user.id, date);
       if (data) {
         console.log(data);
         setMonthlyStats(data);
@@ -55,12 +51,12 @@ export default function Home() {
   }, [user, selectedMonth]);
 
   return (
-    <main className="px-4">
-      <header className="pt-5 pb-2 flex justify-between">
+    <main className="">
+      <header className="pt-3 pb-1 flex justify-between border-b-2 px-4">
         <h1 className={"text-xl font-semibold text-[#16803C]"}>Splitrck</h1>
-        <STUser user={user} />
+        {user && <STUser user={user} />}
       </header>
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-2 px-4">
         <h2>Monthly Stats</h2>
         <div className="flex">
           <ChevronLeft
@@ -94,7 +90,9 @@ export default function Home() {
           />
         </div>
       </div>
-      {monthlyStats && <MonthlyStats stats={monthlyStats} />}
+      <div className="px-4">
+        {monthlyStats && <MonthlyStats stats={monthlyStats} />}
+      </div>
     </main>
   );
 }

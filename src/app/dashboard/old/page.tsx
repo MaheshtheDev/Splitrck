@@ -44,7 +44,6 @@ export default function Home() {
     <main className="px-4">
       <header className="pt-5 pb-2 flex justify-between">
         <h1 className={"text-xl font-semibold text-[#16803C]"}>Splitrck</h1>
-        <STUser />
       </header>
       <Stats user={user} stats={stats} />
     </main>

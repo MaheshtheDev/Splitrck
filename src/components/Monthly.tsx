@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import dynamic from "next/dynamic";
 import { HandCoins } from "lucide-react";
+import { useState } from "react";
 
 const BarChartWithoutSSR = dynamic(
   () => import("recharts").then((mod) => mod.BarChart),
@@ -26,6 +27,7 @@ const PieChartWithoutSSR = dynamic(
 
 export function MonthlyStats({ stats }: { stats: any }) {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const [activeTab, setActiveTab] = useState("Spent");
 
   const YAxisLeftTick = ({ y, payload: { value } }: any) => {
     const valueFoo = stats.spentLentDetails.find((d: any) => d.name === value);
@@ -58,6 +60,18 @@ export function MonthlyStats({ stats }: { stats: any }) {
       </g>
     );
   };
+
+  const navLinks = [
+    {
+      name: "Spent",
+    },
+    {
+      name: "Lent",
+    },
+    {
+      name: "Categories",
+    },
+  ];
 
   return (
     <>
@@ -187,9 +201,23 @@ export function MonthlyStats({ stats }: { stats: any }) {
           </div>
         </section>
         <section>
-          <nav className="flex justify-start text-sm">
-            <a className="mr-2 underline underline-offset-4">Transactions</a>
-            <a>Categories</a>
+          <nav className="flex text-sm">
+            {navLinks.map((link, index) => {
+              return (
+                <button
+                  key={index}
+                  className={
+                    "px-1 py-1 rounded-sm mx-1 first:ml-0 first:pl-0 " +
+                    (activeTab === link.name
+                      ? "underline underline-offset-4"
+                      : "opacity-50 hover:opacity-100")
+                  }
+                  onClick={() => setActiveTab(link.name)}
+                >
+                  {link.name}
+                </button>
+              );
+            })}
           </nav>
           <div>
             {stats.expenses.map((expense: any, index: number) => {
@@ -221,7 +249,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
                       </p>*/}
                     </div>
                   </div>
-                  <p className="font-semibold">
+                  <p className="font-semibold text-[#F00]">
                     {Number(expense.amount).toFixed(2)} USD
                   </p>
                 </div>
