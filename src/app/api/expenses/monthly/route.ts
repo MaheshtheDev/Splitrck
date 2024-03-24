@@ -40,6 +40,36 @@ export async function GET(request: Request) {
     let lentByMe = 0;
     let sortedExpenses: any = [];
     let categoryWiseExpenses: any = [];
+    let dayWiseSplits: any = [
+      {
+        name: "Sun",
+        value: 0,
+      },
+      {
+        name: "Mon",
+        value: 0,
+      },
+      {
+        name: "Tue",
+        value: 0,
+      },
+      {
+        name: "Wed",
+        value: 0,
+      },
+      {
+        name: "Thu",
+        value: 0,
+      },
+      {
+        name: "Fri",
+        value: 0,
+      },
+      {
+        name: "Sat",
+        value: 0,
+      },
+    ];
 
     expenses.forEach((expense: any) => {
       if (expense.deleted_at) {
@@ -50,9 +80,7 @@ export async function GET(request: Request) {
         (user: any) => user.user_id === Number(userId)
       );
 
-      const paidBy = expense.users.find(
-        (user: any) => user.paid_share !== 0
-      );
+      const paidBy = expense.users.find((user: any) => user.paid_share !== 0);
 
       if (userExpenseInfo) {
         if (userExpenseInfo.paid_share != 0) {
@@ -79,12 +107,18 @@ export async function GET(request: Request) {
               value: parseFloat(userExpenseInfo.owed_share || 0),
             });
           }
+
+          // add to day wise splits
+          const day = new Date(expense.date).getDay();
+          dayWiseSplits[day].value =
+            dayWiseSplits[day].value + parseFloat(userExpenseInfo.owed_share);
+
           sortedExpenses.push({
             description: expense.description,
             amount: parseFloat(userExpenseInfo.owed_share || 0),
             date: expense.date,
             category: expense.category.name,
-            paidBy: paidBy
+            paidBy: paidBy,
           } as any);
         }
       }
@@ -111,9 +145,15 @@ export async function GET(request: Request) {
         },
       ],
       topCategories: categoryWiseExpenses
-      .sort((a: any, b: any) => b.value - a.value)
-      .slice(0, 3),
-      expenses: sortedExpenses,
+        .sort((a: any, b: any) => b.value - a.value)
+        .slice(0, 3),
+      dayWiseSplits: dayWiseSplits.map((day: any) => {
+        return {
+          name: day.name,
+          value: Number(Number(day.value).toFixed(2)),
+        };
+      }),
+      expenses: sortedExpenses.sort((a: any, b: any) => b.amount - a.amount),
     };
   }
 

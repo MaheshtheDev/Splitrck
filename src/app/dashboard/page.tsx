@@ -6,14 +6,11 @@ import API from "@/lib/api";
 import { ChevronLeft, ChevronRight, User } from "lucide-react";
 
 import { MonthlyStats } from "@/components/Monthly";
+import { STUser } from "@/components/STUser";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
-  const [stats, setStats] = useState<{
-    owedByMe: { friend: any; amount: number };
-    owedToMe: { friend: any; amount: number };
-    monthWiseSplits: any;
-  } | null>(null);
+  
   const [monthlyStats, setMonthlyStats] = useState<any>();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const userStore = useUserStore();
@@ -40,12 +37,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const fetchStats = async () => {
-      const [data, error] = await API.getStats(user.id);
-      if (data) {
-        setStats(data);
-      }
-    };
 
     const fetchMonthlyStats = async (date: any) => {
       const [data, error] = await API.getMonthlyExpenses(
@@ -67,7 +58,7 @@ export default function Home() {
     <main className="px-4">
       <header className="pt-5 pb-2 flex justify-between">
         <h1 className={"text-xl font-semibold text-[#16803C]"}>Splitrck</h1>
-        <User />
+        <STUser user={user} />
       </header>
       <div className="flex justify-between">
         <h2>Monthly Stats</h2>

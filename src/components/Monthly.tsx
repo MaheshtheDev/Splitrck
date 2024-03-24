@@ -97,8 +97,8 @@ export function MonthlyStats({ stats }: { stats: any }) {
           </ResponsiveContainer>
         </div>
         <section className="my-2 flex justify-between">
-          <div className="w-[47%] bg-[#f3f3f3] rounded-md py-1 px-2">
-            <p className="text-green-900 text-center">Top Categories</p>
+          <div className="w-[49%] bg-[#f3f3f3] rounded-md py-1 px-2">
+            <p className="text-green-900 text-sm">Top Categories</p>
             <ResponsiveContainer width="100%" height={40 * 3}>
               <PieChartWithoutSSR
                 margin={{
@@ -147,8 +147,43 @@ export function MonthlyStats({ stats }: { stats: any }) {
               );
             })}
           </div>
-          <div className="w-[47%]  bg-[#699cb1] rounded-md py-1 px-2">
-            <p className="text-center">Weekly</p>
+          <div className="w-[49%]  bg-[#f3f3f3] rounded-md py-1 px-2">
+            <p className=" text-sm">Days of Week</p>
+            <ResponsiveContainer width="100%" height={40 * 4}>
+              <BarChartWithoutSSR
+                data={stats.dayWiseSplits}
+                margin={{
+                  top: 0,
+                  right: 0,
+                  left: -35,
+                  bottom: 0,
+                }}
+                className="mt-2"
+                barSize={10}
+              >
+                <XAxis
+                  type="category"
+                  dataKey={"name"}
+                  padding={{ left: 5, right: 5 }}
+                  style={{
+                    fontSize: "8px",
+                  }}
+                />
+                <YAxis
+                  //orientation="right"
+                  type="number"
+                  dataKey="value"
+                  axisLine={false}
+                  //tickLine={false}
+                  tick={{ fontSize: 10 }}
+                />
+                <Bar background dataKey="value" fillRule="evenodd">
+                  {stats.dayWiseSplits.map((entry: any, index: number) => {
+                    return <Cell key={`cell-${index}`} fill={entry.fill} />;
+                  })}
+                </Bar>
+              </BarChartWithoutSSR>
+            </ResponsiveContainer>
           </div>
         </section>
         <section>
@@ -176,21 +211,14 @@ export function MonthlyStats({ stats }: { stats: any }) {
                         })}
                       </div>
                     </div>
-                    <div>
+                    <div className="items-center">
                       <p className="text-sm">{expense.description}</p>
-                      <div className="flex items-center mt-1">
-                        <div className="rounded-full bg-[#f3f3f3] px-2 flex items-center mr-1">
-                          <HandCoins size={10} />
-                          <p className="text-[10px] ml-1">
-                            {expense.paidBy.user.first_name}
-                          </p>
-                        </div>
-                        <div className="rounded-full bg-[#f3f3f3] px-2">
-                          <div className="text-[10px] text-center">
-                            {expense.category}
-                          </div>
-                        </div>
-                      </div>
+                      <p className="text-[10px] text-[#cbaeae]">
+                        Paid by {expense.paidBy.user.first_name}
+                      </p>
+                      {/*<p className="text-[10px] text-[#cbaeae]">
+                        Paid by {expense.paidBy.user.first_name}
+                      </p>*/}
                     </div>
                   </div>
                   <p className="font-semibold">

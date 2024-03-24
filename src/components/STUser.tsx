@@ -19,22 +19,8 @@ import { CONSTANTS } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import API from "@/lib/api";
 
-export function STUser() {
+export function STUser({ user }: { user: any }) {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const userStore = useUserStore();
-
-  const fetchData = async () => {
-    const [data, error] = await API.getUser();
-    if (data) {
-      userStore.setUser(data);
-      setUser(data);
-    }
-  };
-
-  if (!userStore.user) {
-    fetchData();
-  }
 
   return (
     <>
@@ -43,7 +29,7 @@ export function STUser() {
           <DropdownMenuTrigger asChild>
             <div className="flex text-center items-center">
               <p>{user.first_name}</p>
-              <CircleUserRound className="h-7 w-7 ml-2" />
+              <User />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
