@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useUserStore } from "@/lib/store";
 import API from "@/lib/api";
 import { ChevronLeft, ChevronRight, User } from "lucide-react";
@@ -52,12 +53,22 @@ export default function Home() {
 
   return (
     <main className="">
-      <header className="pt-3 pb-1 flex justify-between border-b-2 px-4">
-        <h1 className={"text-xl font-semibold text-[#16803C]"}>Splitrck</h1>
+      <header className="pt-3 pb-1 flex justify-between border-b-2 px-4 bg-[#4cb799] text-white">
+        <div className="">
+          {/*<Image
+            src={"/icon.svg"}
+            height={25}
+            width={25}
+            alt="Splitrck Icon"
+            className="mr-2"
+          />*/}
+          <h1 className={"text-lg font-semibold"}>Splitrck</h1>
+          <p className="text-[8px] opacity-75">Analytics for your Splitwise</p>
+        </div>
         {user && <STUser user={user} />}
       </header>
       <div className="flex justify-between mt-2 px-4">
-        <h2>Monthly Stats</h2>
+        <h2 className="text-[#4cb799] font-semibold">Monthly Stats</h2>
         <div className="flex">
           <ChevronLeft
             className="bg-[#56dbcb] rounded-sm cursor-pointer"

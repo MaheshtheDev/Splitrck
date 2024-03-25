@@ -201,13 +201,13 @@ export function MonthlyStats({ stats }: { stats: any }) {
           </div>
         </section>
         <section>
-          <nav className="flex text-sm">
+          <nav className="flex text-sm border-b-2">
             {navLinks.map((link, index) => {
               return (
                 <button
                   key={index}
                   className={
-                    "px-1 py-1 rounded-sm mx-1 first:ml-0 first:pl-0 " +
+                    "px-1 pt-1 rounded-sm mx-1 first:ml-0 first:pl-0 " +
                     (activeTab === link.name
                       ? "underline underline-offset-4"
                       : "opacity-50 hover:opacity-100")
@@ -220,41 +220,91 @@ export function MonthlyStats({ stats }: { stats: any }) {
             })}
           </nav>
           <div>
-            {stats.expenses.map((expense: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out pr-2 rounded-sm first:mt-2"
-                >
-                  <div className="flex justify-start items-center">
-                    <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
-                      <div className="text-xs text-center">
-                        {new Date(expense.date).toLocaleDateString("en-US", {
-                          month: "short",
-                        })}
-                      </div>
-                      <div className="text-md text-center">
-                        {new Date(expense.date).toLocaleDateString("en-US", {
-                          day: "numeric",
-                        })}
-                      </div>
-                    </div>
-                    <div className="items-center">
-                      <p className="text-sm">{expense.description}</p>
-                      <p className="text-[10px] text-[#cbaeae]">
-                        Paid by {expense.paidBy.user.first_name}
-                      </p>
-                      {/*<p className="text-[10px] text-[#cbaeae]">
+            {
+              {
+                Spent: stats.expenses.map((expense: any, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out pr-2 rounded-sm first:mt-2"
+                    >
+                      <div className="flex justify-start items-center">
+                        <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
+                          <div className="text-xs text-center">
+                            {new Date(expense.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                              }
+                            )}
+                          </div>
+                          <div className="text-md text-center">
+                            {new Date(expense.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                day: "numeric",
+                              }
+                            )}
+                          </div>
+                        </div>
+                        <div className="items-center">
+                          <p className="text-sm">{expense.description}</p>
+                          <p className="text-[10px] text-[#cbaeae]">
+                            Paid by {expense.paidBy.user.first_name}
+                          </p>
+                          {/*<p className="text-[10px] text-[#cbaeae]">
                         Paid by {expense.paidBy.user.first_name}
                       </p>*/}
+                        </div>
+                      </div>
+                      <p className="font-semibold text-[#F00] text-sm">
+                        {Number(expense.amount).toFixed(2)} USD
+                      </p>
                     </div>
-                  </div>
-                  <p className="font-semibold text-[#F00]">
-                    {Number(expense.amount).toFixed(2)} USD
-                  </p>
-                </div>
-              );
-            })}
+                  );
+                }),
+                Lent: stats.lentByMeExpenses.map(
+                  (expense: any, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out pr-2 rounded-sm first:mt-2"
+                      >
+                        <div className="flex justify-start items-center">
+                          <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
+                            <div className="text-xs text-center">
+                              {new Date(expense.date).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                }
+                              )}
+                            </div>
+                            <div className="text-md text-center">
+                              {new Date(expense.date).toLocaleDateString(
+                                "en-US",
+                                {
+                                  day: "numeric",
+                                }
+                              )}
+                            </div>
+                          </div>
+                          <div className="items-center">
+                            <p className="text-sm">{expense.description}</p>
+                            <p className="text-[10px] text-[#cbaeae]">
+                              Paid by {expense.paidBy.user.first_name}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="font-semibold text-[#008000] text-sm">
+                          {Number(expense.amount).toFixed(2)} USD
+                        </p>
+                      </div>
+                    );
+                  }
+                ),
+              }[activeTab]
+            }
           </div>
         </section>
       </section>

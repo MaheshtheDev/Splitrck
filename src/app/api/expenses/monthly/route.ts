@@ -39,6 +39,7 @@ export async function GET(request: Request) {
     let spentByMe = 0;
     let lentByMe = 0;
     let sortedExpenses: any = [];
+    let lentByMeExpenses: any = [];
     let categoryWiseExpenses: any = [];
     let dayWiseSplits: any = [
       {
@@ -85,6 +86,13 @@ export async function GET(request: Request) {
       if (userExpenseInfo) {
         if (userExpenseInfo.paid_share != 0) {
           lentByMe += userExpenseInfo.paid_share - userExpenseInfo.owed_share;
+          lentByMeExpenses.push({
+            description: expense.description,
+            amount: userExpenseInfo.paid_share - userExpenseInfo.owed_share,
+            date: expense.date,
+            category: expense.category.name,
+            paidBy: paidBy,
+          } as any);
         }
 
         if (userExpenseInfo.owed_share > 0) {
@@ -154,6 +162,7 @@ export async function GET(request: Request) {
         };
       }),
       expenses: sortedExpenses.sort((a: any, b: any) => b.amount - a.amount),
+      lentByMeExpenses: lentByMeExpenses.sort((a: any, b: any) => b.amount - a.amount),
     };
   }
 
