@@ -53,7 +53,8 @@ export default function Home() {
 
   return (
     <main className="">
-      <header className="pt-3 pb-1 flex justify-between border-b-2 px-4 bg-[#4cb799] text-white">
+      <meta name="theme-color" content="#4cb799"></meta>
+      <header className="pt-2 pb-1 flex justify-between border-b-2 px-4 bg-[#4cb799] text-white">
         <div className="">
           {/*<Image
             src={"/icon.svg"}

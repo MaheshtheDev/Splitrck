@@ -34,6 +34,7 @@ export default function Page() {
       {
         title: "Random Relative",
         description: "Forwareded money saving quotes",
+        time: "now",
       },
     ];
     const notify = (count: any) =>
