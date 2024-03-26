@@ -62,16 +62,15 @@ export default function Home() {
             alt="Splitrck Icon"
             className="mr-2"
           />*/}
-          <h1 className={"text-lg font-semibold"}>Splitrck</h1>
-          <p className="text-[8px] opacity-75">Analytics for your Splitwise</p>
+          <h1 className={"text-xl font-semibold"}>Splitrck</h1>
         </div>
         {user && <STUser user={user} />}
       </header>
       <div className="flex justify-between mt-2 px-4">
         <h2 className="text-[#4cb799] font-semibold">Monthly Stats</h2>
-        <div className="flex">
+        <div className="flex transition-colors bg-transparent border border-input shadow-sm rounded-md items-center">
           <ChevronLeft
-            className="bg-[#56dbcb] rounded-sm cursor-pointer"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100"
             opacity={0.75}
             onClick={() => {
               const newDate = new Date(
@@ -80,14 +79,10 @@ export default function Home() {
               setSelectedMonth(newDate);
             }}
           />
-          <p className="mx-2">{getFormattedDate(selectedMonth)}</p>
+          <p className="mx-2 text-sm">{getFormattedDate(selectedMonth)}</p>
           <ChevronRight
-            className="bg-[#56dbcb] rounded-sm"
-            opacity={
-              getFormattedDate(selectedMonth) === getFormattedDate(new Date())
-                ? 0.2
-                : 0.75
-            }
+            aria-disabled={true}
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100"
             onClick={() => {
               if (
                 getFormattedDate(selectedMonth) === getFormattedDate(new Date())
