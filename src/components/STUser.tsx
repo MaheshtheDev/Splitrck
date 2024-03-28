@@ -1,7 +1,7 @@
 import { use, useEffect, useState } from "react";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, Contact, Github } from "lucide-react";
 
 import { LogOut, Mail, Settings, User } from "lucide-react";
 import {
@@ -36,14 +36,19 @@ export function STUser({ user }: { user: any }) {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
+              <DropdownMenuItem
+                onClick={() =>
+                  (window.location.href =
+                    "https://github.com/MaheshtheDev/Splitrck")
+                }
+              >
+                <Github className="mr-2 h-4 w-4" />
+                <span>GitHub Repo</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
+              {/*<DropdownMenuItem>
+                <Contact className="mr-2 h-4 w-4" />
+                <span>Contact us</span>
+              </DropdownMenuItem>*/}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -60,11 +65,11 @@ export function STUser({ user }: { user: any }) {
       ) : (
         <button
           className="bg-green-700 py-2 px-4 rounded-md text-white"
-          onClick={() => {
-            signIn("splitwise");
-          }}
+          //onClick={() => {
+          //  signIn("splitwise");
+          //}}
         >
-          Sign in with Splitwise
+          {/*Sign in with Splitwise*/}
         </button>
       )}
     </>

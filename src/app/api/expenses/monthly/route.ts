@@ -81,7 +81,7 @@ export async function GET(request: Request) {
         (user: any) => user.user_id === Number(userId)
       );
 
-      const paidBy = expense.users.find((user: any) => user.paid_share !== 0);
+      const paidBy = expense.users.find((user: any) => Number(user.paid_share) !== 0);
 
       if (userExpenseInfo) {
         if (userExpenseInfo.paid_share != 0) {
@@ -161,8 +161,11 @@ export async function GET(request: Request) {
           value: Number(Number(day.value).toFixed(2)),
         };
       }),
+      catergoryWiseExpenses: categoryWiseExpenses,
       expenses: sortedExpenses.sort((a: any, b: any) => b.amount - a.amount),
-      lentByMeExpenses: lentByMeExpenses.sort((a: any, b: any) => b.amount - a.amount),
+      lentByMeExpenses: lentByMeExpenses.sort(
+        (a: any, b: any) => b.amount - a.amount
+      ),
     };
   }
 
