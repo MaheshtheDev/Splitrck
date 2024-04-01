@@ -8,7 +8,6 @@ import {
   Cell,
 } from "recharts";
 import dynamic from "next/dynamic";
-import { HandCoins } from "lucide-react";
 import { useState } from "react";
 
 const BarChartWithoutSSR = dynamic(
@@ -260,9 +259,6 @@ export function MonthlyStats({ stats }: { stats: any }) {
                                   {expense.paidBy.user.first_name}
                                 </span>
                               </p>
-                              {/*<p className="text-[10px] text-[#cbaeae]">
-                        Paid by {expense.paidBy.user.first_name}
-                      </p>*/}
                             </div>
                           </div>
                           <p className="font-semibold text-[#F00] text-sm">

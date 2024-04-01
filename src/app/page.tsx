@@ -9,9 +9,43 @@ import toast, { Toaster } from "react-hot-toast";
 
 import { STAnnoyUser } from "@/components/STAnnoyUser";
 
+import {
+  Bar,
+  XAxis,
+  YAxis,
+  Text,
+  ResponsiveContainer,
+  Pie,
+  Cell,
+} from "recharts";
+import dynamic from "next/dynamic";
+
+const BarChartWithoutSSR = dynamic(
+  () => import("recharts").then((mod) => mod.BarChart),
+  {
+    ssr: false,
+  }
+);
+
+const PieChartWithoutSSR = dynamic(
+  () => import("recharts").then((mod) => mod.PieChart),
+  {
+    ssr: false,
+  }
+);
+
 export default function Page() {
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const { data } = useSession();
   const router = useRouter();
+
+  const demoData = {
+    topCategories: [
+      { name: "Rent", value: 300 },
+      { name: "Food", value: 220 },
+      { name: "Travel", value: 150 },
+    ],
+  };
 
   useEffect(() => {
     if (data && data.user) {
@@ -90,7 +124,7 @@ export default function Page() {
           </p>
           <p className="opacity-[0.5]">know more about your Splits</p>
           <button
-            className="bg-[#5CC5A7] text-white px-3 py-1 rounded-full flex align-middle items-center my-4"
+            className="bg-[#5CC5A7] text-white px-3 py-1 rounded-full flex align-middle items-center"
             onClick={() => {
               signIn("splitwise");
             }}
@@ -107,7 +141,84 @@ export default function Page() {
         </section>
         <section className="text-center">
           <p className="text-xl">Spend, Track, Save</p>
-          <p></p>
+          <p className="text-xs opacity-55">
+            get your monthly stats with better analytics
+          </p>
+          <div className="flex justify-between align-middle items-center my-4">
+            <div className="w-[45%] rounded-md py-1 px-2">
+              <ResponsiveContainer width="100%" height={40 * 3}>
+                <PieChartWithoutSSR
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                  width={100}
+                  height={150}
+                >
+                  <Pie
+                    data={demoData.topCategories}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={50}
+                    fill="#8884d8"
+                    dataKey="value"
+                    valueKey="value"
+                  >
+                    {demoData.topCategories.map((entry: any, index: any) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                </PieChartWithoutSSR>
+              </ResponsiveContainer>
+              <div className="flex gap-2">
+                {demoData.topCategories.map((d: any, i: any) => {
+                  return (
+                    <div key={i} className=" text-xs items-center">
+                      <div className="flex justify-center items-center">
+                        <div
+                          className="w-2 h-2"
+                          style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                        ></div>
+                        <p className="ml-1 truncate">{d.name}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="w-[55%] bg-[#f1f1f140] py-2 px-1 rounded-md">
+              <p className="font-semibold">Top Categories</p>
+              <p className="text-[10px] opacity-45">
+                Check where in which categories you are spending most, monthly
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center my-8 justify-around">
+            <div className="mb-2 w-[55%] bg-[#f1f1f140] py-2 px-1 rounded-md">
+              <p className="font-semibold">Finanical Overview</p>
+              <p className="text-[10px] opacity-45">
+                Overall, spent and lent money over the selected month
+              </p>
+            </div>
+            <div className="">
+              <div className="flex flex-col justify-start items-start">
+                <p className="text-[10px] text-[#808080] font-bold">Lent</p>
+                <span className=" font-bold text-[#008000]">$994.86</span>
+              </div>
+              <div className="flex flex-col justify-start items-start">
+                <span className="text-[10px] text-[#808080] font-bold">
+                  Spent
+                </span>
+                <span className="font-bold text-[#F00]">$191.97</span>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
     </div>
