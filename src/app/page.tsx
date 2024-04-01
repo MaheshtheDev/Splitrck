@@ -6,26 +6,14 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
 import toast, { Toaster } from "react-hot-toast";
-
-import { STAnnoyUser } from "@/components/STAnnoyUser";
-
 import {
-  Bar,
-  XAxis,
-  YAxis,
-  Text,
   ResponsiveContainer,
   Pie,
   Cell,
 } from "recharts";
 import dynamic from "next/dynamic";
 
-const BarChartWithoutSSR = dynamic(
-  () => import("recharts").then((mod) => mod.BarChart),
-  {
-    ssr: false,
-  }
-);
+import { STAnnoyUser } from "@/components/STAnnoyUser";
 
 const PieChartWithoutSSR = dynamic(
   () => import("recharts").then((mod) => mod.PieChart),

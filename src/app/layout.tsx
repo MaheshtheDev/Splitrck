@@ -4,14 +4,23 @@ import { Montserrat } from "next/font/google";
 import { NextAuthProvider } from "./providers";
 import "./globals.css";
 
-
 const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: "Splitrck",
-  description: "Spend. Track. Save.",
+  description: "Analytics for your Splitwise",
+  creator: "MaheshtheDev",
+  keywords: ["splitwise", "analytics", "splitrck"],
+  icons: [
+    {
+      href: "/favicon.ico",
+      sizes: "64x64",
+      type: "image/png",
+      url: "/favicon.ico",
+    },
+  ],
 };
 
 export default function RootLayout({
