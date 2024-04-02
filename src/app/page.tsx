@@ -46,7 +46,7 @@ export default function Page() {
       },
       {
         title: "Random Relative",
-        description: "Forwareded money saving quotes",
+        description: "Forwarded money saving quotes",
         time: "now",
       },
     ];
