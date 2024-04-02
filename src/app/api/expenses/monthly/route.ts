@@ -9,8 +9,12 @@ export async function GET(request: Request) {
   const params = new URLSearchParams(request.url.split("?")[1]);
   const userId = params.get("userId");
   const date: any = params.get("date");
-  const startOfMonth = new Date(date);
-  startOfMonth.setDate(1);
+  const selectedDate = new Date(date);
+  const startOfMonth = new Date(
+    selectedDate.getFullYear(),
+    selectedDate.getMonth(),
+    1
+  );
   const endOfMonth = new Date(
     startOfMonth.getFullYear(),
     startOfMonth.getMonth() + 1,
@@ -81,7 +85,9 @@ export async function GET(request: Request) {
         (user: any) => user.user_id === Number(userId)
       );
 
-      const paidBy = expense.users.find((user: any) => Number(user.paid_share) !== 0);
+      const paidBy = expense.users.find(
+        (user: any) => Number(user.paid_share) !== 0
+      );
 
       if (userExpenseInfo) {
         if (userExpenseInfo.paid_share != 0) {
@@ -171,7 +177,7 @@ export async function GET(request: Request) {
 
   const filteredExpenses = expenses.filter(
     (expse: any) =>
-      expse.creation_method === null &&
+      (expse.creation_method === null || expse.creation_method === "equal") &&
       expse.currency_code === "USD" &&
       expse.deleted_at === null
   );
