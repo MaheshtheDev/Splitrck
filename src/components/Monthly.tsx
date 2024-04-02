@@ -292,7 +292,8 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
                               </div>
                             </div>
                             <p className="font-semibold text-[#F00] text-sm">
-                              {Number(expense.amount).toFixed(2)} {stats.currency_code}
+                              {Number(expense.amount).toFixed(2)}{" "}
+                              {stats.currency_code}
                             </p>
                           </div>
                         );
@@ -336,12 +337,16 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
                                     {expense.description}
                                   </p>
                                   <p className="text-[10px] text-[#cbaeae]">
-                                    Paid by {expense.paidBy.user.first_name}
+                                    Paid by{" "}
+                                    <span className="font-semibold capitalize">
+                                      {expense.paidBy.user.first_name}
+                                    </span>{" "}
                                   </p>
                                 </div>
                               </div>
                               <p className="font-semibold text-[#008000] text-sm">
-                                {Number(expense.amount).toFixed(2)} {stats.currency_code}
+                                {Number(expense.amount).toFixed(2)}{" "}
+                                {stats.currency_code}
                               </p>
                             </div>
                           );
@@ -361,7 +366,8 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
                             <p className="text-[10px] text-[#cbaeae]"></p>
                           </div>
                           <p className="font-semibold text-[#008000] text-sm">
-                            {Number(expense.value).toFixed(2)} {stats.currency_code}
+                            {Number(expense.value).toFixed(2)}{" "}
+                            {stats.currency_code}
                           </p>
                         </div>
                       );
