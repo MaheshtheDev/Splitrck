@@ -1,6 +1,6 @@
 export function STAnnoyUser({ item }: { item: any }) {
   return (
-    <div className="bg-gray-200/75 rounded-md px-1 py-3 flex gap-2 justify-between w-[100%] max-w-sm backdrop-blur animate-appearFromRight">
+    <div className="bg-gray-200/75 rounded-md px-1 py-2 flex gap-2 justify-between w-[100%] max-w-sm backdrop-blur animate-appearFromRight">
       <div className="flex gap-2 items-center">
         <div className="w-8 h-8 ml-2">
           <svg

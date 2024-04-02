@@ -6,11 +6,7 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
 import toast, { Toaster } from "react-hot-toast";
-import {
-  ResponsiveContainer,
-  Pie,
-  Cell,
-} from "recharts";
+import { ResponsiveContainer, Pie, Cell } from "recharts";
 import dynamic from "next/dynamic";
 
 import { STAnnoyUser } from "@/components/STAnnoyUser";
@@ -49,11 +45,6 @@ export default function Page() {
         time: "1 min ago",
       },
       {
-        title: "Mom❤️",
-        description: "Emyandi, akada ekuva karuchupettavu?",
-        time: "now",
-      },
-      {
         title: "Random Relative",
         description: "Forwareded money saving quotes",
         time: "now",
@@ -79,7 +70,7 @@ export default function Page() {
         <header className="flex justify-between items-center">
           <h1 className="font-semibold text-xl">Splitrck</h1>
           <button
-            className="flex border-2 border-black rounded-md py-1 px-2 items-center"
+            className="flex border-[1px] border-black rounded-md py-1 px-2 items-center"
             onClick={() =>
               window.open("https://github.com/MaheshtheDev/Splitrck", "_blank")
             }
@@ -92,8 +83,8 @@ export default function Page() {
               className="text-white mr-2"
             />
             <div className="flex flex-col items-start tracking-wide">
-              <p className="text-[6px] text-gray-400">Made by</p>
-              <p className="text-[8px]">MaheshtheDev</p>
+              <p className="text-[6px] text-gray-500">Made by</p>
+              <p className="text-[9px]">MaheshtheDev</p>
             </div>
           </button>
         </header>
@@ -116,6 +107,7 @@ export default function Page() {
             onClick={() => {
               signIn("splitwise");
             }}
+            data-umami-event="Sign in with Splitwise"
           >
             <Image
               src="/splitwise.svg"
@@ -208,6 +200,11 @@ export default function Page() {
             </div>
           </div>
         </section>
+        <script
+          defer
+          src="https://analytics.maheshthedev.me/script.js"
+          data-website-id="7ee546fb-a4b5-473e-a545-9d85a9720af0"
+        ></script>
       </main>
     </div>
   );

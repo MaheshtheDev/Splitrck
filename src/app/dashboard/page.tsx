@@ -8,12 +8,14 @@ import { ChevronLeft, ChevronRight, User } from "lucide-react";
 
 import { MonthlyStats } from "@/components/Monthly";
 import { STUser } from "@/components/STUser";
+import ModalPicker from "@/components/STDatePicker";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
 
   const [monthlyStats, setMonthlyStats] = useState<any>();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const userStore = useUserStore();
 
   const fetchData = async () => {
@@ -41,7 +43,6 @@ export default function Home() {
     const fetchMonthlyStats = async (date: any) => {
       const [data, error] = await API.getMonthlyExpenses(user.id, date);
       if (data) {
-        console.log(data);
         setMonthlyStats(data);
       }
     };
@@ -80,7 +81,14 @@ export default function Home() {
               setSelectedMonth(newDate);
             }}
           />
-          <p className="mx-2 text-sm">{getFormattedDate(selectedMonth)}</p>
+          <p
+            className="px-2 text-sm"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            {getFormattedDate(selectedMonth)}
+          </p>
           <ChevronRight
             aria-disabled={true}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-5 w-5 bg-transparent p-0 opacity-50 hover:opacity-100"
@@ -97,6 +105,12 @@ export default function Home() {
           />
         </div>
       </div>
+      <ModalPicker
+        isModelOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
+      />
       <div className="px-4">
         {monthlyStats && <MonthlyStats stats={monthlyStats} />}
       </div>

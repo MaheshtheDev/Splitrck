@@ -40,6 +40,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Splitrck</title>
+        <link rel="icon" href="/favicon.ico" />
       </head>
       <NextAuthProvider>
         <body className={montserrat.className + " bg-white"}>{children}</body>
