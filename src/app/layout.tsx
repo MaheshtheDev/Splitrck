@@ -21,14 +21,9 @@ export const metadata: Metadata = {
     siteName: "Splitrck",
     description: "Analytics for your Splitwise",
   },
-  icons: [
-    {
-      href: "/favicon.ico",
-      sizes: "64x64",
-      type: "image/png",
-      url: "/favicon.ico",
-    },
-  ],
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
