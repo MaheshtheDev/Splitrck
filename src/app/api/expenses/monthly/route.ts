@@ -175,16 +175,55 @@ export async function GET(request: Request) {
     };
   }
 
-  const filteredExpenses = expenses.filter(
-    (expse: any) =>
-      (expse.creation_method === null || expse.creation_method === "equal") &&
-      expse.currency_code === "USD" &&
-      expse.deleted_at === null
+  const USDExpenses = expenses.filter(
+    (expse: any) => ((expse.creation_method === null || expse.creation_method === "equal") && expse.currency_code === "USD" && expse.deleted_at === null)
   );
 
-  const stats = generateStats(filteredExpenses);
+  const INRExpenses = expenses.filter(
+    (expse: any) => ((expse.creation_method === null || expse.creation_method === "equal") && expse.currency_code === "INR" && expse.deleted_at === null)
+  );
 
-  return NextResponse.json(stats, {
-    status: 200,
-  });
+  if (USDExpenses.length > 0) {
+    const USDStats = generateStats(USDExpenses);
+    return NextResponse.json(
+      { ...USDStats, currency_code: "USD" },
+      {
+        status: 200,
+      }
+    );
+  } else if (INRExpenses.length > 0) {
+    const INRStats = generateStats(INRExpenses);
+    return NextResponse.json(
+      { ...INRStats, currency_code: "INR" },
+      {
+        status: 200,
+      }
+    );
+  } else {
+    return NextResponse.json(
+      {
+        spentLentDetails: [
+          {
+            name: "Lent",
+            value: 0,
+            fill: "green",
+          },
+          {
+            name: "Spent",
+            value: 0,
+            fill: "red",
+          },
+        ],
+        topCategories: [],
+        dayWiseSplits: [],
+        catergoryWiseExpenses: [],
+        expenses: [],
+        lentByMeExpenses: [],
+        currency_code: "USD",
+      },
+      {
+        status: 200,
+      }
+    );
+  }
 }

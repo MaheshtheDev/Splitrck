@@ -34,7 +34,21 @@ const checkIfStatsEmpty = (stats: any) => {
   return false;
 };
 
-export function MonthlyStats({ stats }: { stats: any }) {
+type Stats = {
+  spentLentDetails: {
+    name: string;
+    value: number;
+    fill: string;
+  }[];
+  topCategories: any[];
+  dayWiseSplits: any[];
+  catergoryWiseExpenses: any[];
+  expenses: any[];
+  lentByMeExpenses: any[];
+  currency_code: "USD" | "INR";
+};
+
+export function MonthlyStats({ stats }: { stats: Stats }) {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const [activeTab, setActiveTab] = useState(0);
 
@@ -64,7 +78,9 @@ export function MonthlyStats({ stats }: { stats: any }) {
           }
           fill={value === "Spent" ? "red" : "green"}
         >
-          {"$" + valueFoo?.value}
+          {stats.currency_code === "INR"
+            ? "₹" + valueFoo?.value
+            : "$" + valueFoo?.value}
         </Text>
       </g>
     );
@@ -167,7 +183,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
                       <p className="ml-1 truncate">{d.name}</p>
                     </div>
                     <p className="font-semibold w-[56%] flex justify-end">
-                      {Number(d.value).toFixed(2)} USD
+                      {Number(d.value).toFixed(2)} {stats.currency_code}
                     </p>
                   </div>
                 );
@@ -276,7 +292,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
                               </div>
                             </div>
                             <p className="font-semibold text-[#F00] text-sm">
-                              {Number(expense.amount).toFixed(2)} USD
+                              {Number(expense.amount).toFixed(2)} {stats.currency_code}
                             </p>
                           </div>
                         );
@@ -325,7 +341,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
                                 </div>
                               </div>
                               <p className="font-semibold text-[#008000] text-sm">
-                                {Number(expense.amount).toFixed(2)} USD
+                                {Number(expense.amount).toFixed(2)} {stats.currency_code}
                               </p>
                             </div>
                           );
@@ -345,7 +361,7 @@ export function MonthlyStats({ stats }: { stats: any }) {
                             <p className="text-[10px] text-[#cbaeae]"></p>
                           </div>
                           <p className="font-semibold text-[#008000] text-sm">
-                            {Number(expense.value).toFixed(2)} USD
+                            {Number(expense.value).toFixed(2)} {stats.currency_code}
                           </p>
                         </div>
                       );
