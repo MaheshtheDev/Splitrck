@@ -1,8 +1,11 @@
 ## Splitrck
-Splitrck is a simple analytics tool for your splitwise bills
+> Analytics tool for your Splitwise
 
 ### Features
-- Analytics on your splitwise bills
+- Analyse your monthly expenses
+- Know where you spending the most in a selected month
+- Know how much you are lending the money to others
+- PWA support
 
 ### Getting Started
 To get started, you need to have a splitwise account.
@@ -11,11 +14,12 @@ To get started, you need to have a splitwise account.
 ```sh
 git clone https://github.com/maheshthedev/splitrck.git
 ```
-2. Install the dependencies
+2. Replace the Client Id, Client Secret and remaining secrets mentioned in `env.example`
+3. Install the dependencies
 ```sh
 npm install
 ```
-3. Run the application
+4. Run the application
 ```sh
 npm run dev
 ```
