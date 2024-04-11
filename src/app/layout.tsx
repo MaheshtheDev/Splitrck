@@ -20,6 +20,15 @@ export const metadata: Metadata = {
     url: "https://splitrck.mtd.wtf/",
     siteName: "Splitrck",
     description: "Analytics for your Splitwise",
+    images: ["/splitrck-og.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "https://splitrck.mtd.wtf/",
+    creator: "@MaheshtheDev",
+    title: "Splitrck",
+    description: "Analytics for your Splitwise",
+    images: ["/splitrck-og.png"]
   },
   icons: {
     icon: "/favicon.ico",
