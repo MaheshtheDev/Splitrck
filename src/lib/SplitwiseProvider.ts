@@ -8,7 +8,7 @@ export const SplitwiseProvider: Provider = {
   id: "splitwise",
   name: "Splitwise",
   type: "oauth",
-  version: "2.0",
+  //version: "2.0",
   authorization: {
     url: `${SPLITWISE_API_URL}/oauth/authorize`,
     params: { scope: "" },
@@ -48,4 +48,5 @@ export const SplitwiseProvider: Provider = {
       id: user.id.toString(),
     };
   },
+  checks: ["state"]
 };
