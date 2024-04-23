@@ -26,10 +26,10 @@ async function getUser() {
 
   if (response.ok) {
     const data = await response.json();
-    return [data.user, null];
+    return [data.user, null, 200];
   }
 
-  return [null, "Error fetching user"];
+  return [null, "Error fetching user", response.status];
 }
 
 async function getMonthlyExpenses(userId: string, date: Date) {

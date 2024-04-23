@@ -1,5 +1,5 @@
-import { SplitwiseProvider } from "@/lib/SplitwiseProvider";
-import NextAuth, { NextAuthConfig } from "next-auth";
+import SplitwiseProvider from "@/lib/SplitwiseProvider";
+import { NextAuthConfig } from "next-auth";
 import { Session } from "next-auth";
 
 type User = {
@@ -20,7 +20,10 @@ export interface CustomSession extends Session {
 }
 
 const authOptions: NextAuthConfig = {
-  providers: [SplitwiseProvider],
+  providers: [SplitwiseProvider({
+    clientId: process.env.SPLITWISE_CLIENT_ID,
+    clientSecret: process.env.SPLITWISE_CLIENT_SECRET,
+  })],
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
@@ -35,8 +38,6 @@ const authOptions: NextAuthConfig = {
       return session;
     },
   },
-  //session: { strategy: "jwt" },
-  debug: true,
   trustHost: true,
 };
 

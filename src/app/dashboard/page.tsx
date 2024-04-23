@@ -1,28 +1,30 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useUserStore } from "@/lib/store";
 import API from "@/lib/api";
-import { ChevronLeft, ChevronRight, User } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { MonthlyStats } from "@/components/Monthly";
 import { STUser } from "@/components/STUser";
 import ModalPicker from "@/components/STDatePicker";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
-
   const [monthlyStats, setMonthlyStats] = useState<any>();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userStore = useUserStore();
+  const router = useRouter();
 
   const fetchData = async () => {
-    const [userData, error] = await API.getUser();
-    if (userData) {
+    const [userData, error, status] = await API.getUser();
+    if (userData && status == 200) {
       setUser(userData);
       userStore.setUser(userData);
+    } else {
+      router.push("/")
     }
   };
 
