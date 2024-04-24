@@ -8,6 +8,9 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+export const runtime = "nodejs";
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://splitrck.mtd.wtf/"),
   title: "Splitrck",

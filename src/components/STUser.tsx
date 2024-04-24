@@ -52,8 +52,8 @@ export function STUser({ user }: { user: any }) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => {
-                signOut();
+              onClick={async () => {
+                await signOut();
                 router.push("/");
               }}
             >

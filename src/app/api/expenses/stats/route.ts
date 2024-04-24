@@ -1,10 +1,11 @@
-import { getServerSession } from "next-auth/next";
-import authOptions from "@/lib/auth";
-import { CustomSession } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+import { CustomSession } from "@/lib/auth.config";
 import { NextResponse } from "next/server";
 
+export const runtime = "edge";
+
 export async function GET(request: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   const params = new URLSearchParams(request.url.split("?")[1]);
   const userId = params.get("userId");
