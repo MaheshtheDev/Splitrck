@@ -9,6 +9,8 @@ import {
 } from "recharts";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { Drawer } from "vaul";
+import STConfigure from "./STConfigure";
 
 const BarChartWithoutSSR = dynamic(
   () => import("recharts").then((mod) => mod.BarChart),
@@ -99,7 +101,7 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
   ];
 
   return (
-    <>
+    <Drawer.Root>
       {!checkIfStatsEmpty(stats) ? (
         <section className="my-2">
           <div className="">
@@ -309,49 +311,50 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
                       {stats.lentByMeExpenses.map(
                         (expense: any, index: number) => {
                           return (
-                            <div
-                              key={index}
-                              className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out pr-2 rounded-sm first:mt-2"
-                            >
-                              <div className="flex justify-start items-center">
-                                <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
-                                  <div className="text-xs text-center">
-                                    {new Date(expense.date).toLocaleDateString(
-                                      "en-US",
-                                      {
+                            <Drawer.Trigger asChild key={index}>
+                              <div
+                                key={index}
+                                className="flex justify-between bg-white py-1 items-center border-b-2 border-gray-100 hover:bg-gray-100 transition duration-300 ease-in-out pr-2 rounded-sm first:mt-2"
+                              >
+                                <div className="flex justify-start items-center">
+                                  <div className="bg-[#35335b] rounded-sm mr-2 px-2 py-1 text-white">
+                                    <div className="text-xs text-center">
+                                      {new Date(
+                                        expense.date
+                                      ).toLocaleDateString("en-US", {
                                         month: "short",
-                                      }
-                                    )}
-                                  </div>
-                                  <div className="text-md text-center">
-                                    {new Date(expense.date).toLocaleDateString(
-                                      "en-US",
-                                      {
+                                      })}
+                                    </div>
+                                    <div className="text-md text-center">
+                                      {new Date(
+                                        expense.date
+                                      ).toLocaleDateString("en-US", {
                                         day: "numeric",
-                                      }
-                                    )}
+                                      })}
+                                    </div>
+                                  </div>
+                                  <div className="items-center">
+                                    <p className="text-sm">
+                                      {expense.description}
+                                    </p>
+                                    <p className="text-[10px] text-[#cbaeae]">
+                                      Paid by{" "}
+                                      <span className="font-semibold capitalize">
+                                        {expense.paidBy.user.first_name}
+                                      </span>{" "}
+                                    </p>
                                   </div>
                                 </div>
-                                <div className="items-center">
-                                  <p className="text-sm">
-                                    {expense.description}
-                                  </p>
-                                  <p className="text-[10px] text-[#cbaeae]">
-                                    Paid by{" "}
-                                    <span className="font-semibold capitalize">
-                                      {expense.paidBy.user.first_name}
-                                    </span>{" "}
-                                  </p>
-                                </div>
+                                <p className="font-semibold text-[#008000] text-sm">
+                                  {Number(expense.amount).toFixed(2)}{" "}
+                                  {stats.currency_code}
+                                </p>
                               </div>
-                              <p className="font-semibold text-[#008000] text-sm">
-                                {Number(expense.amount).toFixed(2)}{" "}
-                                {stats.currency_code}
-                              </p>
-                            </div>
+                            </Drawer.Trigger>
                           );
                         }
                       )}
+                      <STConfigure />
                     </>
                   ),
                   2: stats.catergoryWiseExpenses.map(
@@ -383,6 +386,6 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
           No data available for selected month
         </div>
       )}
-    </>
+    </Drawer.Root>
   );
 }
