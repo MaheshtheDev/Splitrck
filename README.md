@@ -14,8 +14,8 @@ To get started, you need to have a splitwise account.
 ```sh
 git clone https://github.com/maheshthedev/splitrck.git
 ```
-2. Replace the Client Id, Client Secret and remaining secrets mentioned in `env.example`
-3. Install the dependencies
+2. Replace the Client Id, Client Secret and remaining secrets mentioned in `env.example`, you can get those values [here](https://secure.splitwise.com/apps), Don't forget to add callbackURL in Splitwise App which is gonna be `http://localhost:3000/api/auth/callback/splitwise`
+4. Install the dependencies
 ```sh
 npm install
 ```
