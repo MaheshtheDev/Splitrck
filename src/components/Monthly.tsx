@@ -365,7 +365,7 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
                             <p className="text-sm">{expense.name}</p>
                             <p className="text-[10px] text-[#cbaeae]"></p>
                           </div>
-                          <p className="font-semibold text-[#008000] text-sm">
+                          <p className="font-semibold text-[#F00] text-sm">
                             {Number(expense.value).toFixed(2)}{" "}
                             {stats.currency_code}
                           </p>
