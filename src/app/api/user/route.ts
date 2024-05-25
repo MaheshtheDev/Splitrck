@@ -1,13 +1,20 @@
 import { auth } from "@/lib/auth";
 import { CustomSession } from "@/lib/auth.config";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-export async function GET(request: Request) {
+export async function GET(req: NextRequest) {
   const session = await auth();
+  const token =
+    req.cookies.get("next-auth.session-token")?.value ??
+    req.cookies.get("__Secure-authjs.session-token")?.value ??
+    req.cookies.get("authjs.session-token")?.value ??
+    req.headers.get("Authorization")?.replace("Bearer ", "");
 
-  if (!session) {
+  //console.log("token ", token);
+
+  if (!token) {
     return NextResponse.json(
       { error: "Unauthorized" },
       {
@@ -21,11 +28,13 @@ export async function GET(request: Request) {
     {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + (session as CustomSession).accessToken,
+        Authorization: "Bearer " + token,
       },
       cache: "no-cache",
     }
   ).then((res) => res.json());
+
+  console.log("user ", user)
 
   return NextResponse.json(
     { user },
