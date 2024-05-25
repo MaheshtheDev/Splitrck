@@ -1,39 +1,44 @@
 import { Drawer } from "vaul";
+import { format } from "date-fns";
+import { DayPicker } from "react-day-picker";
+import { STTransaction, Transaction } from "./STTransaction";
+import { DatePickerDemo } from "./ui/date-picker";
 
-export default function STConfigure() {
+interface Props {
+  currencyCode: "USD" | "INR";
+  transaction: Transaction;
+}
+
+export default function STConfigure({ transaction, currencyCode }: Props) {
   return (
     <Drawer.Portal>
       <Drawer.Overlay className="fixed inset-0 bg-black/40" />
       <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] h-[49%] mt-24 fixed bottom-0 left-0 right-0">
-        <div className="p-4 bg-white rounded-t-[10px] flex-1">
-          <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
-          <div className="max-w-md mx-auto">
-            <Drawer.Title className="font-medium mb-4">
-              Unstyled drawer for React.
+        <div className="p-4 bg-white rounded-t-[10px] flex-1 flex flex-col">
+          <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-2" />
+          <STTransaction
+            transaction={transaction}
+            currencyCode={currencyCode}
+          />
+          <div className="max-w-md my-4">
+            <Drawer.Title className="font-medium mb-2 opacity-45">
+              Expense Settings
             </Drawer.Title>
-            <p className="text-zinc-600 mb-2">
-              This component can be used as a replacement for a Dialog on mobile
-              and tablet devices.
-            </p>
-            <p className="text-zinc-600 mb-8">
-              It uses{" "}
-              <a
-                href="https://www.radix-ui.com/docs/primitives/components/dialog"
-                className="underline"
-                target="_blank"
-              >
-                Radix&apos;s Dialog primitive
-              </a>{" "}
-              under the hood and is inspired by{" "}
-              <a
-                href="https://twitter.com/devongovett/status/1674470185783402496"
-                className="underline"
-                target="_blank"
-              >
-                this tweet.
-              </a>
-            </p>
+            <div className="flex justify-between align-middle items-center">
+              <p className="text-sm">
+                Set Payment Due Date
+                <p className="opacity-30 text-xs">we will notify all to repay</p>
+              </p>
+              <div className="text-xs flex justify-end">
+                <DatePickerDemo />
+              </div>
+            </div>
           </div>
+          <footer className="mt-auto">
+            <button className="w-full bg-[#4cb799] text-white rounded-md py-2 mt-4 opacity-50">
+              Save
+            </button>
+          </footer>
         </div>
       </Drawer.Content>
     </Drawer.Portal>
