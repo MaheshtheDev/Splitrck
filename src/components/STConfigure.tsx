@@ -1,8 +1,6 @@
 import { Drawer } from "vaul";
 import { format } from "date-fns";
-import { DayPicker } from "react-day-picker";
 import { STTransaction, Transaction } from "./STTransaction";
-import { DatePickerDemo } from "./ui/date-picker";
 
 interface Props {
   currencyCode: "USD" | "INR";
@@ -27,15 +25,28 @@ export default function STConfigure({ transaction, currencyCode }: Props) {
             <div className="flex justify-between align-middle items-center">
               <p className="text-sm">
                 Set Payment Due Date
-                <p className="opacity-30 text-xs">we will notify all to repay</p>
+                <p className="opacity-30 text-xs">
+                  we will notify all to repay
+                </p>
               </p>
-              <div className="text-xs flex justify-end">
-                <DatePickerDemo />
+              <div>
+                <input
+                  type="date"
+                  name="date"
+                  id="date"
+                  placeholder="mm/dd/yyyy"
+                  onFocus={(e) => e.target.type = "date"}
+                  onBlur={(e) => e.target.type = "text"}
+                  min={format(new Date(), "yyyy-MM-dd")}
+                  className="py-1 px-2 w-full border border-zinc-300 rounded-md"
+                />
               </div>
             </div>
           </div>
           <footer className="mt-auto">
-            <button className="w-full bg-[#4cb799] text-white rounded-md py-2 mt-4 opacity-50">
+            <button
+              className={"w-full bg-[#4cb799] text-white rounded-md py-2 mt-4"}
+            >
               Save
             </button>
           </footer>
