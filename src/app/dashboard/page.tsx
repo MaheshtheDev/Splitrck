@@ -29,7 +29,7 @@ export default function Home() {
         if (element) {
           domtoimage
             .toBlob(element, {
-              height: 1000,
+              height: 950,
               width: 1200,
               style: {
                 transform: "scale(" + scale + ")",
@@ -168,7 +168,7 @@ export default function Home() {
         ref={(el) => (wrapperRef.current = el)}
       >
         <div
-          className={`flex justify-between + ${downloading ? "" : "hidden"} `}
+          className={`flex justify-between + ${downloading ? " py-1 " : "hidden"} `}
         >
           <h2
             className={`text-[#4cb799] font-semibold`}
