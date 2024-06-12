@@ -18,40 +18,37 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userStore = useUserStore();
 
-    const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-    const snapshotCreator = () => {
-      return new Promise((resolve, reject) => {
-        try {
-          const scale = window.devicePixelRatio;
-          const element = wrapperRef.current; // You can use element's ID or Class here
-          if (element) {
-            domtoimage
-              .toBlob(element, {
-                height: 650,
-                width: 750,
-                style: {
-                  transform: "scale(" + scale + ")",
-                  transformOrigin: "top left",
-                  width: "500px",
-                  height: "500px",
-                },
-              })
-              .then((blob) => {
-                resolve(blob);
-              });
-          }
-        } catch (e) {
-          reject(e);
+  const snapshotCreator = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        const scale = window.devicePixelRatio;
+        const element = wrapperRef.current; // You can use element's ID or Class here
+        if (element) {
+          domtoimage
+            .toBlob(element, {
+              height: 650,
+              width: 750,
+              style: {
+                transform: "scale(" + scale + ")",
+                transformOrigin: "top left",
+                width: "800px",
+                height: "800px",
+              },
+            })
+            .then((blob) => {
+              resolve(blob);
+            });
         }
-      });
-    };
+      } catch (e) {
+        reject(e);
+      }
+    });
+  };
 
   const shareImage = async () => {
-    console.log("Share Image")
-    console.log(navigator.share)
     if (navigator.share) {
-      console.log("Sharing")
       await snapshotCreator();
       const blob: any = await snapshotCreator();
       const data = {

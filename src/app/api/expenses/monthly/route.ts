@@ -21,9 +21,17 @@ export async function GET(request: Request) {
     0
   );
 
-  // recent first date is 30 days ago
-  const recentFirstDate = new Date();
-  recentFirstDate.setDate(recentFirstDate.getDate() - 30);
+  const prevMonthStart = new Date(
+    selectedDate.getFullYear(),
+    selectedDate.getMonth() - 1,
+    1
+  );
+
+  const prevMonthEnd = new Date(
+    prevMonthStart.getFullYear(),
+    prevMonthStart.getMonth() + 1,
+    0
+  );
 
   let API_URL = `https://secure.splitwise.com/api/v3.0/get_expenses?dated_after=${startOfMonth
     .toISOString()
@@ -39,7 +47,7 @@ export async function GET(request: Request) {
     cache: "no-cache",
   }).then((res) => res.json());
 
-  function generateStats(expenses: any) {
+  function generateStats(expenses: any, prevMonthStatsData: any) {
     let spentByMe = 0;
     let lentByMe = 0;
     let sortedExpenses: any = [];
@@ -151,11 +159,20 @@ export async function GET(request: Request) {
           name: "Lent",
           value: Number(lentByMe).toFixed(2),
           fill: "green",
+          prevMonth: prevMonthStatsData.lentByMe > lentByMe ? "down" : "up",
+          prevMonthPercentage: Number(
+            Math.abs((lentByMe - prevMonthStatsData.lentByMe) / prevMonthStatsData.lentByMe)
+          ).toFixed(2),
         },
         {
           name: "Spent",
           value: Number(spentByMe).toFixed(2),
           fill: "red",
+          prevMonth: prevMonthStatsData.spentByMe > spentByMe ? "down" : "up",
+          prevMonthPercentage: Number(
+            Math.abs((spentByMe -
+              prevMonthStatsData.spentByMe) / prevMonthStatsData.spentByMe)
+          ).toFixed(2),
         },
       ],
       topCategories: categoryWiseExpenses
@@ -175,16 +192,96 @@ export async function GET(request: Request) {
     };
   }
 
+  async function prevMonthStats() {
+    let API_URL = `https://secure.splitwise.com/api/v3.0/get_expenses?dated_after=${prevMonthStart
+      .toISOString()
+      .slice(0, 10)}&dated_before=${prevMonthEnd
+      .toISOString()
+      .slice(0, 10)}&limit=50000`;
+
+    const { expenses } = await fetch(API_URL, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + (session as CustomSession).accessToken,
+      },
+      cache: "no-cache",
+    }).then((res) => res.json());
+
+    const USDExpenses = expenses.filter(
+      (expse: any) =>
+        (expse.creation_method === null || expse.creation_method === "equal") &&
+        expse.currency_code === "USD" &&
+        expse.deleted_at === null
+    );
+
+    const INRExpenses = expenses.filter(
+      (expse: any) =>
+        (expse.creation_method === null || expse.creation_method === "equal") &&
+        expse.currency_code === "INR" &&
+        expse.deleted_at === null
+    );
+
+    let spentByMe = 0;
+    let lentByMe = 0;
+
+    if (USDExpenses.length > 0) {
+      USDExpenses.forEach((expense: any) => {
+        const userExpenseInfo = expense.users.find(
+          (user: any) => user.user_id === Number(userId)
+        );
+
+        if (userExpenseInfo) {
+          if (userExpenseInfo.paid_share != 0) {
+            lentByMe += userExpenseInfo.paid_share - userExpenseInfo.owed_share;
+          }
+
+          if (userExpenseInfo.owed_share > 0) {
+            spentByMe += parseFloat(userExpenseInfo.owed_share || 0);
+          }
+        }
+      });
+    } else if (INRExpenses.length > 0) {
+      INRExpenses.forEach((expense: any) => {
+        const userExpenseInfo = expense.users.find(
+          (user: any) => user.user_id === Number(userId)
+        );
+
+        if (userExpenseInfo) {
+          if (userExpenseInfo.paid_share != 0) {
+            lentByMe += userExpenseInfo.paid_share - userExpenseInfo.owed_share;
+          }
+
+          if (userExpenseInfo.owed_share > 0) {
+            spentByMe += parseFloat(userExpenseInfo.owed_share || 0);
+          }
+        }
+      });
+    }
+
+    return {
+      spentByMe: spentByMe,
+      lentByMe: lentByMe,
+    };
+  }
+
   const USDExpenses = expenses.filter(
-    (expse: any) => ((expse.creation_method === null || expse.creation_method === "equal") && expse.currency_code === "USD" && expse.deleted_at === null)
+    (expse: any) =>
+      (expse.creation_method === null || expse.creation_method === "equal") &&
+      expse.currency_code === "USD" &&
+      expse.deleted_at === null
   );
 
   const INRExpenses = expenses.filter(
-    (expse: any) => ((expse.creation_method === null || expse.creation_method === "equal") && expse.currency_code === "INR" && expse.deleted_at === null)
+    (expse: any) =>
+      (expse.creation_method === null || expse.creation_method === "equal") &&
+      expse.currency_code === "INR" &&
+      expse.deleted_at === null
   );
 
+  const prevMonthStatsData = await prevMonthStats();
+
   if (USDExpenses.length > 0) {
-    const USDStats = generateStats(USDExpenses);
+    const USDStats = generateStats(USDExpenses, prevMonthStatsData);
     return NextResponse.json(
       { ...USDStats, currency_code: "USD" },
       {
@@ -192,7 +289,7 @@ export async function GET(request: Request) {
       }
     );
   } else if (INRExpenses.length > 0) {
-    const INRStats = generateStats(INRExpenses);
+    const INRStats = generateStats(INRExpenses, prevMonthStatsData);
     return NextResponse.json(
       { ...INRStats, currency_code: "INR" },
       {
@@ -207,11 +304,15 @@ export async function GET(request: Request) {
             name: "Lent",
             value: 0,
             fill: "green",
+            prevMonth: "down",
+            prevMonthPercentage: 0,
           },
           {
             name: "Spent",
             value: 0,
             fill: "red",
+            prevMonth: "down",
+            prevMonthPercentage: 0,
           },
         ],
         topCategories: [],

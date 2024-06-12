@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { TrendingDown, TrendingUp } from "lucide-react";
 
 const BarChartWithoutSSR = dynamic(
   () => import("recharts").then((mod) => mod.BarChart),
@@ -52,40 +53,6 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const [activeTab, setActiveTab] = useState(0);
 
-  const YAxisLeftTick = ({ y, payload: { value } }: any) => {
-    const valueFoo = stats.spentLentDetails.find((d: any) => d.name === value);
-    return (
-      <g>
-        <Text
-          x={0}
-          y={y - 10}
-          textAnchor="start"
-          verticalAnchor="middle"
-          fontSize={10}
-          fontWeight="bold"
-        >
-          {value}
-        </Text>
-        <Text
-          x={0}
-          y={y + 5}
-          textAnchor="start"
-          verticalAnchor="middle"
-          fontSize={16}
-          fontWeight="bold"
-          className={
-            "tracking-wide" + (value === "Spent" ? " text-red-500" : "")
-          }
-          fill={value === "Spent" ? "red" : "green"}
-        >
-          {stats.currency_code === "INR"
-            ? "₹" + valueFoo?.value
-            : "$" + valueFoo?.value}
-        </Text>
-      </g>
-    );
-  };
-
   const navLinks = [
     {
       name: "Spent",
@@ -102,40 +69,44 @@ export function MonthlyStats({ stats }: { stats: Stats }) {
     <>
       {!checkIfStatsEmpty(stats) ? (
         <section className="my-2">
-          <div className="">
-            <ResponsiveContainer
-              width={"100%"}
-              height={50 * stats.spentLentDetails.length}
-              debounce={50}
-            >
-              <BarChartWithoutSSR
-                data={stats.spentLentDetails}
-                layout="vertical"
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-                className="mt-2"
-              >
-                <XAxis type="number" hide />
-                <YAxis
-                  yAxisId={0}
-                  type="category"
-                  dataKey="name"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={<YAxisLeftTick />}
-                />
-                <Bar background dataKey="value" radius={5} fillRule="evenodd">
-                  {stats.spentLentDetails.map((entry: any, index: number) => {
-                    return <Cell key={`cell-${index}`} fill={entry.fill} />;
-                  })}
-                </Bar>
-              </BarChartWithoutSSR>
-            </ResponsiveContainer>
-          </div>
+          <section className="flex gap-2">
+            {stats.spentLentDetails.map((entry: any, index: number) => {
+              const color =
+                entry.name === "Spent" ? "text-red-500" : "text-[#4cb799]";
+              return (
+                <div
+                  className="w-[49%] bg-[#f3f3f3] rounded-md py-1 px-2 flex justify-between items-center"
+                  key={index}
+                >
+                  <div>
+                    <p className="text-[10px] font-bold">{entry.name}</p>
+                    <p className={`font-bold + ${color}`}>
+                      {stats.currency_code === "INR"
+                        ? "₹" + entry.value
+                        : "$" + entry.value}
+                    </p>
+                  </div>
+                  <div>
+                    {entry.prevMonth === "up" ? (
+                      <div className="items-center align-middle flex-col">
+                        <TrendingUp className={`block m-auto + ${color}`} />
+                        <p className="text-[8px]">
+                          {entry.prevMonth} by {entry.prevMonthPercentage}%
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="items-center flex-col justify-center align-middle">
+                        <TrendingDown className={`block m-auto + ${color}`} />
+                        <p className="text-[8px]">
+                          {entry.prevMonth} by {entry.prevMonthPercentage}%
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </section>
           <section className="my-2 flex justify-between">
             <div className="w-[49%] bg-[#f3f3f3] rounded-md py-1 px-2">
               <p className="text-green-900 text-sm">Top Categories</p>
