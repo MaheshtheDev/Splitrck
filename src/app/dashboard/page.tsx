@@ -33,8 +33,8 @@ export default function Home() {
               style: {
                 transform: "scale(" + scale + ")",
                 transformOrigin: "top left",
-                width: "800px",
-                height: "800px",
+                width: "1400px",
+                height: "1000px",
               },
             })
             .then((blob) => {
@@ -108,7 +108,7 @@ export default function Home() {
         </div>
         {user && <STUser user={user} />}
       </header>
-      <div className="flex justify-between mt-2 px-4 bg-white">
+      <div className="flex justify-between mt-2 px-4">
         <h2 className="text-[#4cb799] font-semibold">Monthly Stats</h2>
         <div className="flex gap-2 items-center">
           <div className="flex transition-colors bg-transparent border border-input shadow-sm rounded-md items-center">
@@ -161,6 +161,7 @@ export default function Home() {
         setSelectedMonth={setSelectedMonth}
       />
       <div className="px-4" ref={(el) => (wrapperRef.current = el)}>
+        <p className="hidden">{getFormattedDate(selectedMonth)} Stats</p>
         {monthlyStats && <MonthlyStats stats={monthlyStats} />}
       </div>
     </main>
