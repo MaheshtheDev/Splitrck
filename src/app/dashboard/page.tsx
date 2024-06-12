@@ -15,6 +15,7 @@ export default function Home() {
 
   const [monthlyStats, setMonthlyStats] = useState<any>();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [downloading, setDownloading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userStore = useUserStore();
 
@@ -28,7 +29,7 @@ export default function Home() {
         if (element) {
           domtoimage
             .toBlob(element, {
-              height: 800,
+              height: 1100,
               width: 1200,
               style: {
                 transform: "scale(" + scale + ")",
@@ -49,6 +50,7 @@ export default function Home() {
 
   const shareImage = async () => {
     if (navigator.share) {
+      setDownloading(true);
       await snapshotCreator();
       const blob: any = await snapshotCreator();
       const data = {
@@ -61,7 +63,8 @@ export default function Home() {
       navigator
         .share(data)
         .then(() => console.log("Successful share"))
-        .catch((error) => console.log("Error sharing", error));
+        .catch((error) => console.log("Error sharing", error))
+        .finally(() => setDownloading(false));
     }
   };
 
@@ -160,8 +163,25 @@ export default function Home() {
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
       />
-      <div className="px-4 bg-white" ref={(el) => (wrapperRef.current = el)}>
-        <p className="hidden">{getFormattedDate(selectedMonth)} Stats</p>
+      <div
+        className="px-4 bg-white py-1"
+        ref={(el) => (wrapperRef.current = el)}
+      >
+        <div
+          className={`flex justify-between + ${downloading ? "" : "hidden"} `}
+        >
+          <h2
+            className={`text-[#4cb799] font-semibold`}
+          >
+            {getFormattedDate(selectedMonth)} Stat
+          </h2>
+          <div className="border-l-2 px-2">
+            <p className="text-[10px]">
+              Report by <span className="font-semibold">Splitrck</span>
+            </p>
+            <p className="text-[8px]">splitrck.mtd.wtf</p>
+          </div>
+        </div>
         {monthlyStats && <MonthlyStats stats={monthlyStats} />}
       </div>
     </main>
