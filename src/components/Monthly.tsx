@@ -29,7 +29,7 @@ const checkIfStatsEmpty = (stats: any) => {
   if (!stats) {
     return true;
   }
-  if (stats.lentByMeExpenses.length === 0 || stats.expenses.length === 0) {
+  if (stats.lentByMeExpenses.length === 0 && stats.expenses.length === 0) {
     return true;
   }
   return false;
