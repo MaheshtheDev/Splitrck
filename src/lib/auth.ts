@@ -20,6 +20,7 @@ export interface CustomSession extends Session {
 
 
 const authOptions: AuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [SplitwiseProvider],
   callbacks: {
     async jwt({ token, account }) {
