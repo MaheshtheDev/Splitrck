@@ -28,8 +28,8 @@ export default function Home() {
         if (element) {
           domtoimage
             .toBlob(element, {
-              height: 650,
-              width: 750,
+              height: 800,
+              width: 1200,
               style: {
                 transform: "scale(" + scale + ")",
                 transformOrigin: "top left",
