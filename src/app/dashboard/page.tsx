@@ -29,7 +29,7 @@ export default function Home() {
         if (element) {
           domtoimage
             .toBlob(element, {
-              height: 1100,
+              height: 1000,
               width: 1200,
               style: {
                 transform: "scale(" + scale + ")",
