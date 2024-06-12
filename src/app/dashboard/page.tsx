@@ -108,10 +108,7 @@ export default function Home() {
         </div>
         {user && <STUser user={user} />}
       </header>
-      <div
-        className="flex justify-between mt-2 px-4"
-        ref={(el) => (wrapperRef.current = el)}
-      >
+      <div className="flex justify-between mt-2 px-4 bg-white">
         <h2 className="text-[#4cb799] font-semibold">Monthly Stats</h2>
         <div className="flex gap-2 items-center">
           <div className="flex transition-colors bg-transparent border border-input shadow-sm rounded-md items-center">
@@ -163,7 +160,7 @@ export default function Home() {
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
       />
-      <div className="px-4">
+      <div className="px-4" ref={(el) => (wrapperRef.current = el)}>
         {monthlyStats && <MonthlyStats stats={monthlyStats} />}
       </div>
     </main>
