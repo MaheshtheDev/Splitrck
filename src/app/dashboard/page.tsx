@@ -160,7 +160,7 @@ export default function Home() {
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
       />
-      <div className="px-4" ref={(el) => (wrapperRef.current = el)}>
+      <div className="px-4 bg-white" ref={(el) => (wrapperRef.current = el)}>
         <p className="hidden">{getFormattedDate(selectedMonth)} Stats</p>
         {monthlyStats && <MonthlyStats stats={monthlyStats} />}
       </div>
