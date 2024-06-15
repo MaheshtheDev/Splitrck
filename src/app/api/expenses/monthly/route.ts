@@ -161,7 +161,7 @@ export async function GET(request: Request) {
           fill: "green",
           prevMonth: prevMonthStatsData.lentByMe > lentByMe ? "down" : "up",
           prevMonthPercentage: Number(
-            Math.abs((lentByMe - prevMonthStatsData.lentByMe) / prevMonthStatsData.lentByMe)
+            Math.abs((lentByMe - prevMonthStatsData.lentByMe) / prevMonthStatsData.lentByMe) * 100
           ).toFixed(2),
         },
         {
@@ -171,7 +171,7 @@ export async function GET(request: Request) {
           prevMonth: prevMonthStatsData.spentByMe > spentByMe ? "down" : "up",
           prevMonthPercentage: Number(
             Math.abs((spentByMe -
-              prevMonthStatsData.spentByMe) / prevMonthStatsData.spentByMe)
+              prevMonthStatsData.spentByMe) / prevMonthStatsData.spentByMe) * 100
           ).toFixed(2),
         },
       ],
