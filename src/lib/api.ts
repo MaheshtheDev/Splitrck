@@ -1,7 +1,7 @@
 const API = {
   getUser,
   getStats,
-  getMonthlyExpenses
+  getMonthlyExpenses,
 };
 
 export default API;
