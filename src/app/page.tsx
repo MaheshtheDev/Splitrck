@@ -20,7 +20,7 @@ const PieChartWithoutSSR = dynamic(
 
 export default function Page() {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-  const { data } = useSession();
+  const { data, status } = useSession();
   const router = useRouter();
 
   const demoData = {
@@ -103,20 +103,46 @@ export default function Page() {
           </p>
           <p className="opacity-[0.5]">know more about your Splits</p>
           <button
-            className="bg-[#5CC5A7] text-white px-3 py-1 rounded-full flex align-middle items-center"
+            className="bg-[#5CC5A7] text-white px-3 py-1 rounded-full flex align-middle items-center disabled:opacity-75"
             onClick={() => {
               signIn("splitwise");
             }}
             data-umami-event="Sign in with Splitwise"
+            disabled={status === "loading" || status === "authenticated"}
           >
-            <Image
-              src="/splitwise.svg"
-              width={15}
-              height={15}
-              alt="Splitrck"
-              className="mr-2"
-            />
-            Sign in with Splitwise
+            {status === "loading" || status === "authenticated" ? (
+              <>
+                <svg
+                  className="w-4 h-4 text-gray-300 animate-spin mr-2"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+                    stroke="white"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="text-gray-900"
+                  ></path>
+                </svg>
+                Signing with Splitwise
+              </>
+            ) : (
+              <>
+                <Image
+                  src="/splitwise.svg"
+                  width={15}
+                  height={15}
+                  alt="Splitrck"
+                  className="mr-2"
+                />
+                Sign in with Splitwise
+              </>
+            )}
           </button>
         </section>
         <section className="text-center">
