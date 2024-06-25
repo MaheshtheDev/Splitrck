@@ -1,5 +1,6 @@
-## Splitrck
-> Analytics tool for your Splitwise
+
+<img width="1200" alt="splitrck-og" src="https://github.com/MaheshtheDev/Splitrck/assets/38828053/403ee62d-8bd4-49a2-bae6-82703bb8becf">
+
 
 ### Features
 - Analyse your monthly expenses
