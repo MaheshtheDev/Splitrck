@@ -6,7 +6,7 @@
 - Analyse your monthly expenses
 - Know where you spending the most in a selected month
 - Know how much you are lending the money to others
-- PWA support
+- PWA support.
 
 ### Getting Started
 To get started, you need to have a splitwise account.
