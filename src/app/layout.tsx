@@ -9,7 +9,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://splitrck.mtd.wtf/"),
+  metadataBase: new URL("https://splitrck.maheshthedev.me/"),
   title: "Splitrck",
   description: "Analytics for your Splitwise",
   creator: "MaheshtheDev",
@@ -17,14 +17,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://splitrck.mtd.wtf/",
+    url: "https://splitrck.maheshthedev.me/",
     siteName: "Splitrck",
     description: "Analytics for your Splitwise",
     images: ["/splitrck-og.png"],
   },
   twitter: {
     card: "summary_large_image",
-    site: "https://splitrck.mtd.wtf/",
+    site: "https://splitrck.maheshthedev.me/",
     creator: "@MaheshtheDev",
     title: "Splitrck",
     description: "Analytics for your Splitwise",
